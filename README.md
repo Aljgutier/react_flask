@@ -1,6 +1,7 @@
 # React Flask API Example <!-- omit from toc -->
 
 # Contents <!-- omit from toc -->
+- [Introduction](#introduction)
 - [Backend](#backend)
   - [Create the backend directory](#create-the-backend-directory)
   - [Python Environment](#python-environment)
@@ -12,6 +13,16 @@
 - [Run the Application](#run-the-application)
 - [References](#references)
 
+
+# Introduction
+
+Start by creating a "basic" minimally functional API with a "backend" and "frontend" that returns some basic data from the backend.
+
+Second, dockerize the basic application and serve it on Google Cloud.
+
+Next, add functionality to our API, such as querying Big Query, and some ML functionality.
+
+Git releases will be published along the way to enable picking up the functionality as it is developed. 
 
 # Backend
 
@@ -65,13 +76,13 @@ if __name__ == '__main__':
     app.run(debug=True, port=5001)
 ```
 
-Note the server at port 5001 since my MAC uses port 5000 for Airplay server. The default port is 5000. Exclude the corresponding steps set the port to default to 5000, or just change the port to 5000 instead of 5001. 
+Note the server at port 5001 since my MAC uses port 5000 for Airplay. The default port is 5000. Exclude the "port=5001" to default to 5000, or just change the port to 5000 instead of 5001. 
 
 
 
 # Frontend
 
-At the top level (above backend and frontend directories). when we request into the javascript web server which serves the react frontend will automatically be redirected to the proxy key. In this case, it will be our flask server. 
+At the top level above backend and frontend directories create the react app. You must have previously installed npm, node, and react.
 
 ## Create the React App
 
@@ -171,9 +182,12 @@ In the backend directory
 * run `python server.py` in a terminal window.
 
 In a different terminal window, in the frontend directory run `npm start`
+
+In a browser go to http://localhost:3000 and you should see the following
+
+![Basic React Flask API](./images/basic_react_flask_api.png)
   
 
 # References 
-* https://www.geeksforgeeks.org/how-to-connect-reactjs-with-flask-api/
-
+* Geek for Geeks, Connect React JS with Flask, https://www.geeksforgeeks.org/how-to-connect-reactjs-with-flask-api/
 
