@@ -10,7 +10,9 @@
   - [Create the React App](#create-the-react-app)
   - [Proxy](#proxy)
   - [Fetching data from the API](#fetching-data-from-the-api)
-- [Run the Application](#run-the-application)
+- [Run the Application on your Local Dev Machine](#run-the-application-on-your-local-dev-machine)
+- [Dockerize](#dockerize)
+  - [Backend](#backend-1)
 - [References](#references)
 
 
@@ -77,6 +79,23 @@ if __name__ == '__main__':
 ```
 
 Note the server at port 5001 since my MAC uses port 5000 for Airplay. The default port is 5000. Exclude the "port=5001" to default to 5000, or just change the port to 5000 instead of 5001. 
+
+**Gunicorn**
+Install gunicorn web server. The Gunicorn Python Web Server Gateway Interface (WSGI) is a way to make sure that web servers and Python web applications can talk to each other. 
+
+[What is Gunicorn](https://vsupalov.com/what-is-gunicorn/) - Gunicorns takes care of running multiple instances of your web application, making sure they are healthy and restart them as needed, distributing incoming requests across those instances and communicate with the web server. In addition to that, Gunicorn is pretty darn fast about it. A lot of effort has gone into optimizing it.
+
+```python
+pip install gunicorn.
+```
+
+You can test the backend by running and going to http://localhost:5001 in the browser URL. 
+
+```sh
+$ # gunicorn with 30 second timeout
+$ gunicorn wsgi:app -w 2 -b 0.0.0.0:5001 -t 30
+```
+
 
 
 
@@ -175,7 +194,7 @@ function App() {
 export default App;
 ```
 
-# Run the Application
+# Run the Application on your Local Dev Machine
 
 In the backend directory
 * make sure the python environment is started (`source venv/bin/activate`)
@@ -187,7 +206,42 @@ In a browser go to http://localhost:3000 and you should see the following
 
 ![Basic React Flask API](./images/basic_react_flask_api.png)
   
+# Dockerize
+
+## Backend
+
+To keep things simple we will use a single Docker container multi-stage build approach. The alternative is to create separate Frontend and Backend containers, followed by a Docker compose step to define and run the multi-container application.
+
+Dockerfile
+```
+FROM 3.10-alpine
+WORKDIR /backend
+COPY backend/requirements.txt backend/server.py backend/wsgi.py .
+RUN pip install -r requirements.txt
+EXPOSE 5001
+
+CMD ["gunicorn", "wsgi:app", "-w 2", "-b 0.0.0.0:5001", "-t 30"]
+```
+
+
+```
+$ docker build -t react_flask_backend .
+```
+
+
+Run the backend in the Docker container. Make sure the front end is running (i.e., `npm start` in the frontend directory)
+
+```
+$ docker run -p 5001:5001 react_flask_backend
+```
 
 # References 
-* Geek for Geeks, Connect React JS with Flask, https://www.geeksforgeeks.org/how-to-connect-reactjs-with-flask-api/
+* Geek for Geeks, Connect React JS with Flask, https://www.geeksforgeeks.org/how-to-connect-reactjs-with-flask-api/, accessed January 27, 2024
 
+
+* Miguel Grinberg, How to Dockerize a React + Flask Project, https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project, June 13, 2021, accessed January 27, 2024
+
+* kubona Martin Yafesi, Dealing with Environment Variables in Flask, Flask Environment Variables, https://dev.to/kubona_my/dealing-with-environment-variables-in-flask-o1, August 10, 2021, accessed January 27, 2024
+
+* React Flask in a Single Container,
+https://stackoverflow.com/questions/62441899/flask-and-react-app-in-single-docker-container, May 2021, accessed on Jan 30, 2024

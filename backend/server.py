@@ -1,25 +1,28 @@
-# Filename - server.py
- 
-# Import flask and datetime module for showing date and time
+# Import flask and datetime
 from flask import Flask
 import datetime
  
 x = datetime.datetime.now()
  
 # Initializing flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../build', static_url_path='/')
+
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
+
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
  
  
-# Route for seeing a data
+# data: name and date
 @app.route('/data')
 def get_time():
- 
-    # Returning an api for showing in  reactjs
     return {
         'Name':"alpha beta", 
-        "Age":"22",
         "Date":x, 
-        "programming":"python"
         }
  
      
