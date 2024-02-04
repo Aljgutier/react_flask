@@ -184,7 +184,7 @@ $ cd ./react_client
 
 
 ## Proxy
-Add a proxy to `package.json` to set the port that the frontend (client)queries to make backend (API) requests. The React default port is 3000  and will be directed to the port indicated in the proxy for backend/API requests. Below I set the proxy port to 5001 but you can change the port in the proxy line to 5000 if you leave the backend above at the default port of 5000.
+Add a proxy to `package.json` to set the port that the frontend (client) queries to make backend (API) requests. The React default port is 3000  and will be directed to the port indicated in the proxy for backend/API requests. Below, I set the proxy port to 5001 but you can change the port in the proxy line to 5000 if you leave the backend above at the default port of 5000.
 
 Put the following line into the `package.json`
 
