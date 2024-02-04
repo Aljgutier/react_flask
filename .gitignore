@@ -6,7 +6,6 @@ react_client/public
 react_client/build
 
 react_client/README.md
-react_client/package.json
 react_client/src/App.css
 react_client/src/App.test.js
 react_client/src/index.css

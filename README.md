@@ -129,9 +129,9 @@ FLASK_RUN_PORT=5001
 
 The default Flask port is 5000. However, in this example, we change the port to 5001, since in my case the MAC uses port 5000 for Airplay. You can easily change this to your preferred port.
 
-The Flask `server.py` app will respond to the client through the defined route (`/api/data`). In this case, the application responds with a Name, Date, Environment, and Port. In this simple application, the response gives us a way to visualize some backend variables from the client side. The environment and port are read from the Flask environment variables. The `date` is derived from the Python datetime.now() function when the API (Flask application) route is queried by the client.
+The Flask `server.py` app will respond to the client through the defined route (`/api/data`). The application responds with a Name, Date, Environment, and Port. This response provides us a way to visualize some backend variables from the client. The environment and port are read from the Flask environment variables. The `date` is derived from the Python datetime.now() function when the API (Flask application) route is queried by the client.
 
-When the Flask environment parameter (FLASK_ENV) is set to `production` then the Flask app is configured to serve the client's (React) static files (in the build folder). We will discuss this more later.
+When the Flask environment parameter (FLASK_ENV) is set to `production`, the Flask app is configured to serve the client's (React) static files (in the build folder). We will discuss this more later.
 
 We can run the Flask application by typing (`Flask Run`) in a terminal. In a browser enter the route `http://localhost:5001/api/data` and the application will respond with the JSON data.
 
@@ -159,7 +159,7 @@ $ gunicorn wsgi:app -w 2 -b 0.0.0.0:5001 -t 30
 
 You can test the backend by entering `http://localhost:5001/api/data` in the browser URL. 
 
-You should see the following response:
+You should receive the following response:
 
 ```json
 {"Date":"Sat, 03 Feb 2024 07:24:11 GMT","Environment":"development","Name":"alpha","Port":"5001"}
