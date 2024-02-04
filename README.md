@@ -337,8 +337,9 @@ Find out more about deployment here:
 To keep things simple the React client and Flask API are put into a single image using a multi-stage build. The Flask functionally is configured to serve as the client static file server (i.e., from the build step) and also as the API serving via the corresponding API routes. The alternative is to create separate Frontend and Backend containers, followed by a Docker compose step to define and run the multi-container application.
 
 
-**flask API**  
-As a step towards an eventual single Dockerfile (client and API) let's get a little practice by first Dockerizing the Flask API (backend). Eventually, we will not use this for production deployment, but this is useful for testing the API locally and as a step towards developing the final Dockerfile (client and API).
+**Dockerize the Flask API/backend**  
+As a step towards an eventual single Dockerfile (client and API) let's get a little practice by first Dockerizing the Flask API (backend). Eventually, we will not use this for our production deployment, but this is useful for testing the API locally and as a step towards developing the final Dockerfile (client and API). Alternatively (for other use cases), the backend can be deployed as a microservice API serving an independently developed client App. 
+
 
 Our `Docker.flask` file is in the project top directory. Make sure you are working from the project's top directory (above the flask_api directory)
 
@@ -356,8 +357,6 @@ EXPOSE 5001
 CMD ["gunicorn", "wsgi:app", "-w 2", "-b 0.0.0.0:5001", "-t 30"]
 
 ```
-
-Notice that the FLASK_ENV variable is set in the container. We did not set the port ENV variable. Gunicorn is setting the port number.
 
 Next, build the Docker image with the following command.
 
@@ -428,19 +427,19 @@ $ docker image rm <image name>
 
 Flask supports serving static files, so a logical implementation is to set up the Flask project so that it serves the React application in addition to the API routes.
 
-We will need to point Flask's static folder to the React build directory. This is done with two options, as shown below when creating the Flask application instance:
+We will need to point Flask's static folder to the React build directory. This is done with two Flask options, as shown below:
 
 `static_folder` tells Flask where is the static folder. By default, this is a static directory located in the same directory as the Flask application.  We can change it to point to build.
 
-`static_url_path` tells Flask what is the URL prefix for all static files, by default this is /static. We change it to "/", so that we do not need to prepend every static file with "/static".
+`static_url_path` tells Flask what is the URL prefix for all static files, by default this is /static. We change it to `\` so that we do not need to prepend every static file with "/static".
 
-These two options are set in the Flask API, server.py, with the following arguments.
+These two parameters are set in the Flask API, `server.py`, as follows.
 
 ```python
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 ```
 
-Also, notice that we included the "/" route in the Flask, server.py, to be served by the static index.html file (in the build directory.)
+Also, notice that we included the `/` route in the Flask, server.py, to be served by the static index.html file (in the build directory.)
 
 ```python
 @app.route('/')
@@ -484,8 +483,8 @@ WORKDIR /client/api
 CMD ["gunicorn", "wsgi:app", "-w 2", "-b", ":3000", "-t 10"]
 ```
 
-The Dockerfile defines two build steps. 
-* the first build step copies the react_api to the container and builds the client
+The Dockerfile is based on a multistage build with two build steps. 
+* the first build step copies the react_client to the container and builds the client
 * the second build, copies the build artifacts from the first step, to the second step.
 
 The container second set works as follows
