@@ -9,7 +9,7 @@
 - [React Client/Frontend](#react-clientfrontend)
   - [Create the React App](#create-the-react-app)
   - [Proxy](#proxy)
-  - [App.js: Fetching data from the API](#appjs-fetching-data-from-the-api)
+  - [App.js - Fetching data from the API](#appjs---fetching-data-from-the-api)
 - [Run the Application on your Local Dev Machine](#run-the-application-on-your-local-dev-machine)
 - [Build the React Client](#build-the-react-client)
 - [Dockerize](#dockerize)
@@ -151,8 +151,9 @@ wsgi.py
 from server import app
 import os
 
-FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
 if __name__ == "__main__":
+    FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
+    print(f'FLASK_RUN_PORT= {FLASK_RUN_PORT}')
     app.run(port=FLASK_RUN_PORT)
 ```
 
@@ -209,7 +210,7 @@ package.json
 }
 ```
 
-## App.js: Fetching data from the API
+## App.js - Fetching data from the API
 
 The App.js file in the ./src directory holds the functionality of the client application. Replace the contents of the default App.js created by `npx-create-react-app` with the following.
 
