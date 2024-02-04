@@ -4,5 +4,17 @@
 react_client/node_modules
 react_client/public
 react_client/build
+
+react_client/README.md
+react_client/package.json
+react_client/src/App.css
+react_client/src/App.test.js
+react_client/src/index.css
+react_client/src/index.js
+react_client/src/logo.svg
+react_client/src/reportWebVitals.js
+react_client/src/setupTests.js
+
+
 flask_api/venv_rf/
 flask_api/__pycache__
