@@ -429,9 +429,9 @@ Flask supports serving static files, so a logical implementation is to set up th
 
 We will need to point Flask's static folder to the React build directory. This is done with two Flask options, as shown below:
 
-`static_folder` tells Flask where is the static folder. By default, this is a static directory located in the same directory as the Flask application.  We can change it to point to build.
+* `static_folder` tells Flask where is the static folder. By default, this is a static directory located in the same directory as the Flask application.  We can change it to point to build.
 
-`static_url_path` tells Flask what is the URL prefix for all static files, by default this is /static. We change it to `\` so that we do not need to prepend every static file with "/static".
+* `static_url_path` tells Flask what is the URL prefix for all static files, by default this is /static. We change it to `\` so that we do not need to prepend every static file with "/static".
 
 These two parameters are set in the Flask API, `server.py`, as follows.
 
@@ -439,7 +439,7 @@ These two parameters are set in the Flask API, `server.py`, as follows.
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 ```
 
-Also, notice that we included the `/` route in the Flask, server.py, to be served by the static index.html file (in the build directory.)
+Also, in `server.py` we included the `/` route in the Flask to be served by the static index.html file (build directory).
 
 ```python
 @app.route('/')
@@ -485,16 +485,16 @@ CMD ["gunicorn", "wsgi:app", "-w 2", "-b", ":3000", "-t 10"]
 
 The Dockerfile is based on a multistage build with two build steps. 
 * the first build step copies the react_client to the container and builds the client
-* the second build, copies the build artifacts from the first step, to the second step.
+* the second build, copies the client build artifacts from the first step, to the second step.
 
-The container second set works as follows
-*  Set `./client` as the working directory and within the working directory directory create the the `api` directory (`./client/api`)
-*  Copy the build static client artifacts to the `build` directory (`./client/build`)
+The second build step works as follows
+*  Set `./client` as the working directory and within the working directory create the `api` directory (`./client/api`)
+*  Copy the static client artifacts to the `build` directory (`./client/build`)
 *  Copy the API artifacts and pip install the packages in `regauirements.txt`
 *  Set environment variables
 *  Expose the port 3000 so that the client is accessible as an externally accessible port.
-*  change the working directory to client/api
-*  Start the Flask server with Gunicorn - recall that flask will serve the client static files and calls to the API
+*  Change the working directory to client/api
+*  Start the Flask server with Gunicorn - recall that Flask will serve the client static files and API calls to `/api/data` route
 
 
 Build the container.

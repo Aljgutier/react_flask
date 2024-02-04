@@ -9,10 +9,6 @@ x = datetime.datetime.now()
 FLASK_ENV = os.environ.get('FLASK_ENV')
 FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
 
-print(f'FLASK_ENV = {FLASK_ENV}')
-print(f'FLASK_RUN_PORT= {FLASK_RUN_PORT}')
-
-
 # Initializing flask app ...
     
 if FLASK_ENV == "production":
