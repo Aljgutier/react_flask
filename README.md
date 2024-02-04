@@ -286,17 +286,16 @@ $ python server.py
 ```
 
 **Start Flask API with Gunicorn**
- For production use. What we want is a production-ready web server. Recall that we installed Gunicorn in the virtual environment (above). [Gunicorn](https://vsupalov.com/what-is-gunicorn/) takes care of running multiple instances of the web application (eg., w-2), making sure they are healthy and restarting them as needed, distributing incoming requests across those instances and communicating with the web server. In addition to that, Gunicorn is efficient and fast about it. A lot of effort has gone into optimizing it. 
+Gunicorn provides us with a production-ready web server. Recall that we installed Gunicorn in the virtual environment (above). [Gunicorn](https://vsupalov.com/what-is-gunicorn/) takes care of running multiple instances of the web application (eg., w-2), making sure they are healthy and restarting them as needed, and distributing incoming requests across those instances. In addition, Gunicorn is efficient and fast since a lot of effort has gone into optimizing it. 
 
 
 ```sh
 $  gunicorn wsgi:app w-2 -b 0.0.0.0:5001 -t 30
 ```
 
-
 **Start the React Client**
 
-Next, in a different terminal window in the flask_api directory run the `npm run start`. Make sure that the flask_api is running (in a different terminal window)
+Next, in a different terminal window in the flask_api directory run the `npm run start` command. Make sure that the flask_api is running (in a different terminal window)
 
 ```sh
 $ npm run start
@@ -335,13 +334,13 @@ Find out more about deployment here:
 
 # Dockerize
 
-To keep things simple the client and API are put into a single image using a multi-stage build. The Flask functionally serves as the API serving the client and as a static file server to serve the client content. The alternative is to create separate Frontend and Backend containers, followed by a Docker compose step to define and run the multi-container application.
+To keep things simple the React client and Flask API are put into a single image using a multi-stage build. The Flask functionally is configured to serve as the client static file server (i.e., from the build step) and also as the API serving via the corresponding API routes. The alternative is to create separate Frontend and Backend containers, followed by a Docker compose step to define and run the multi-container application.
 
 
-**flask API**
-As a step towards an eventual single Dockerfile (client and API) let's get a little practice by first Dockerizing the Flask API. Eventually, we will not use this for production deployment, but this is useful for testing the API locally and as a step towards developing the final Dockerfile (client and API).
+**flask API**  
+As a step towards an eventual single Dockerfile (client and API) let's get a little practice by first Dockerizing the Flask API (backend). Eventually, we will not use this for production deployment, but this is useful for testing the API locally and as a step towards developing the final Dockerfile (client and API).
 
-Our Docker.flask file is in the project top directory. Make sure you are working from the project's top directory (above the flask_api directory)
+Our `Docker.flask` file is in the project top directory. Make sure you are working from the project's top directory (above the flask_api directory)
 
 Dockerfile.flask
 ```
@@ -360,7 +359,7 @@ CMD ["gunicorn", "wsgi:app", "-w 2", "-b 0.0.0.0:5001", "-t 30"]
 
 Notice that the FLASK_ENV variable is set in the container. We did not set the port ENV variable. Gunicorn is setting the port number.
 
-Next build the Docker image with the following command.
+Next, build the Docker image with the following command.
 
 ```sh
 $ docker build  -f Dockerfile.flask -t react-flask-api .
@@ -401,7 +400,7 @@ With the React client running (i.e., `npm run start`) test to see that the Docke
 
 **Managing the Images and Containers**
 
-When you make changes to the server.api file, you will want to update the Docker build. In addition, to the Docker commands mentioned above, below are a few tips for managing the Docker images and containers, including listing and removing containers and images.
+When you make changes to the server.py file (or any file affecting the build) you will want to update the Docker build. In addition, to the Docker commands mentioned above, below are a few tips for managing the Docker images and containers, including listing and removing containers and images.
 
 List Docker containers and images from which they are created.
 
