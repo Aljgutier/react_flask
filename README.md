@@ -494,7 +494,7 @@ The second build step works as follows
 *  xet environment variables
 *  expose the container port 3000 so that the client is accessible as an externally accessible port.
 *  change the working directory to client/api
-*  start the Flask server with Gunicorn - Flask will serve the client static files and API calls to `/api/data` route
+*  start the Flask server with Gunicorn - Flask will serve the client static files and API calls to `/api/data`
 
 
 Build the container.
