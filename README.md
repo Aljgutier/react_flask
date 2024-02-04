@@ -5,7 +5,7 @@
 - [Project Directory Structure](#project-directory-structure)
 - [Flask API (Backend)](#flask-api-backend)
   - [Setup the Flask API Environment](#setup-the-flask-api-environment)
-  - [API - server.py](#api---serverpy)
+  - [Flask API](#flask-api)
 - [React Client/Frontend](#react-clientfrontend)
   - [Create the React App](#create-the-react-app)
   - [Proxy](#proxy)
@@ -18,13 +18,9 @@
 
 # Introduction
 
-The goal of this exercise is to demonstrate how to create and deploy a React application ("client) with a Flask (API) backend and dockerize it into a single container. The overall application has simple functionality to keep the focus on the overall process of creating the full-stack React-Flask application and packaging it in a single docker container.  
+The goal of this exercise is to demonstrate how to create and deploy a React application ("client) with a Flask (API) backend and dockerize it into a single container. The overall application has simple functionality to keep the focus on the overall process.
 
-All the files discussed below are in the github repo [React Flask API with Docker Deployment](https://github.com/Aljgutier/react_flask). You can clone these to your computer by issuing the following command in a terminal window.
-
-```sh
-$ git clone https://github.com/Aljgutier/react_flask
-```
+All the files discussed below are available in the github repo [React Flask API with Docker Deployment](https://github.com/Aljgutier/react_flask). 
 
 # Project Directory Structure
 As we begin it is helpful to have an idea of the project directory structure. This directory structure will be created as the project is developed. 
@@ -54,7 +50,7 @@ react_flask
               ...
             
 ```
-* note -  The key structure and files are illustrated above. Bot every file and directory is shown above.
+* note -  the overall directory structure and significant files are illustrated above. Not every file and directory is shown.
 # Flask API (Backend)
 
 ## Setup the Flask API Environment
@@ -76,9 +72,9 @@ $ source venv/bin/activate
 $ pip install flask python-dotenv gunicorn
 ```
 
-## API - server.py
+## Flask API
 
-The backend (API) functionality is in `server.py`
+The backend (API) functionality is contained in the`server.py` file.
 
 ```python
 # Imports
@@ -92,9 +88,7 @@ x = datetime.datetime.now()
 FLASK_ENV = os.environ.get('FLASK_ENV')
 FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
 
-
 # Initializing flask app ...
-    
 if FLASK_ENV == "production":
     app = Flask(__name__, static_folder='../build', static_url_path='/') # production 
 else:
@@ -153,7 +147,6 @@ import os
 
 if __name__ == "__main__":
     FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
-    print(f'FLASK_RUN_PORT= {FLASK_RUN_PORT}')
     app.run(port=FLASK_RUN_PORT)
 ```
 
@@ -164,7 +157,7 @@ $ # gunicorn with 30 second timeout
 $ gunicorn wsgi:app -w 2 -b 0.0.0.0:5001 -t 30
 ```
 
-You can test the backend by running and going to `http://localhost:5001/api/data` in the browser URL. 
+You can test the backend by entering `http://localhost:5001/api/data` in the browser URL. 
 
 You should see the following response:
 
