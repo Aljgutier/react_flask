@@ -433,13 +433,13 @@ We will need to point Flask's static folder to the React build directory. This i
 
 * `static_url_path` tells Flask what is the URL prefix for all static files, by default this is /static. We change it to `\` so that we do not need to prepend every static file with "/static".
 
-These two parameters are set in the Flask API, `server.py`, as follows.
+These two parameters are set in the Flask API `server.py` file, as follows.
 
 ```python
 app = Flask(__name__, static_folder='../build', static_url_path='/')
 ```
 
-Also, in `server.py` we included the `/` route in the Flask to be served by the static index.html file (build directory).
+Also, in `server.py` we include the `/` route to served by the static index.html file (in the build directory).
 
 ```python
 @app.route('/')
@@ -485,16 +485,16 @@ CMD ["gunicorn", "wsgi:app", "-w 2", "-b", ":3000", "-t 10"]
 
 The Dockerfile is based on a multistage build with two build steps. 
 * the first build step copies the react_client to the container and builds the client
-* the second build, copies the client build artifacts from the first step, to the second step.
+* the second build step, copies the client build artifacts from the first step, to the second step.
 
 The second build step works as follows
-*  Set `./client` as the working directory and within the working directory create the `api` directory (`./client/api`)
-*  Copy the static client artifacts to the `build` directory (`./client/build`)
-*  Copy the API artifacts and pip install the packages in `regauirements.txt`
-*  Set environment variables
-*  Expose the port 3000 so that the client is accessible as an externally accessible port.
-*  Change the working directory to client/api
-*  Start the Flask server with Gunicorn - recall that Flask will serve the client static files and API calls to `/api/data` route
+*  set `./client` as the working directory and within the working directory create the `api` directory (`./client/api`)
+*  copy the static client artifacts to the `build` directory (`./client/build`)
+*  copy the API artifacts and pip install the packages in `regauirements.txt`
+*  xet environment variables
+*  expose the container port 3000 so that the client is accessible as an externally accessible port.
+*  change the working directory to client/api
+*  start the Flask server with Gunicorn - Flask will serve the client static files and API calls to `/api/data` route
 
 
 Build the container.
