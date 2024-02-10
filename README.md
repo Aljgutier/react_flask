@@ -308,7 +308,7 @@ In a browser go to http://localhost:3000 and you should see the following
 
 # Build the React Client
 
-Run the build step on the React client (see below) to bundle all the source files and optimize their size for running in a production server or container. 
+Running this step in our development environment is optional. However, doing this at least once is useful to ensure things go smoothly during the Dockerize steps. Run the build step on the React client (see below) to bundle all the source files and optimize their size for running in a production server or container. 
 
 ```sh
 $ npm run build
